@@ -1,0 +1,647 @@
+                                                                                                   [Statedef -2]
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                                                                                   [State ]
+;                           OPTION設定
+                                                                                                   type = SelfState
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                                                                                   trigger1 = !(name="Obliitae Umbella") || !(authorname="Halkaze")
+;目次
+                                                                                                   value = 5030
+;設定１：相手のターゲット取得に隔離を用いる
+                                                                                                   ignorehitpause = 1
+;設定２：雨のダメージ
+                                                                                                   [State ]
+;設定３：攻撃に対する耐性
+                                                                                                   type = SelfState
+;  設定３－１：ダメージ条件
+                                                                                                   triggerall = ishelper
+;  設定３－２：根性値
+                                                                                                   trigger1 = var(0) != ifelse(gametime%2,2*gametime+1,3*gametime+1)
+;  設定３－３：回復
+                                                                                                   trigger2 = stateno != 999
+;設定４：放置した時の状態遷移間隔
+                                                                                                   value = 5150
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                                                                                   ignorehitpause = 1
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                                                                                   [State ]
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                                                                                   type = TagOut
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                                                                                   trigger1 = ishelper
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                                                                                                   ignorehitpause = 1
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;設定１：相手のターゲット取得に隔離を用いる
+;        初期設定:( 1 )
+                                                                                                   [State ]
+;1:ON / 0:OFF
+;その他の数値が入力された際には 1 扱いとなります
+;※OFFにすると攻撃手段が無くなります
+                                                                                                   type = Null
+                                                                                                   trigger1 = var(10) := 0 || 1
+trigger1 = 0&&var(59):= ( 1 )
+                                                                                                   trigger2 = var(59)
+                                                                                                   trigger2 = var(10) := (var(10)|1)
+                                                                                                   ignorehitpause = 1
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;設定２：雨のダメージ
+                                                                                                   [State ]
+;雨によるダメージ量を相手のライフに対する割合で指定できます
+;相手が雨に当たっている間、 10F 毎に lifemax * 設定値 (少数以下切り上げ)
+;だけライフを減少させ続けます
+;負数が入力された際には 0 扱いとなります
+                                                                                                   type = Null
+                                                                                                   trigger1 = palno = 1
+;1Pのときの設定
+;初期設定:( 0.001 )
+trigger1 = 0&&fvar(39):= ( 0.001 )
+                                                                                                   trigger2 = palno = 2
+;2Pのときの設定
+;初期設定:( 0.005 )
+trigger2 = 0&&fvar(39):= ( 0.005 )
+                                                                                                   trigger3 = palno = 3
+;3Pのときの設定
+;初期設定:( 0.01 )
+trigger3 = 0&&fvar(39):= ( 0.01 )
+                                                                                                   trigger4 = palno = 4
+;4Pのときの設定
+;初期設定:( 0.01 )
+trigger4 = 0&&fvar(39):= ( 0.01 )
+                                                                                                   trigger5 = palno = 5
+;5Pのときの設定
+;初期設定:( 0.025 )
+trigger5 = 0&&fvar(39):= ( 0.025 )
+                                                                                                   trigger6 = palno != [1,5]
+;6Pのときの設定
+;初期設定:( 0 )
+trigger6 = 0&&fvar(39):= ( 0 )
+                                                                                                   trigger7 = fvar(39) < 0
+                                                                                                   trigger7 = fvar(39) := 0
+                                                                                                   ignorehitpause = 1
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;設定３：攻撃に対する耐性
+;        初期設定:( palno-1 )
+;-1:ダメージ条件:選択 | 根性値:選択 | 回復:選択
+; 0:ダメージ条件:なし | 根性値:なし | 回復:なし
+; 1:ダメージ条件:なし | 根性値:なし | 回復:小
+; 2:ダメージ条件:なし | 根性値:なし | 回復:中
+; 3:ダメージ条件:なし | 根性値:あり | 回復:中
+; 4:ダメージ条件:あり | 根性値:あり | 回復:大
+; 5:攻撃では死にません
+;範囲外の数値が入力された際には 5 扱いとなります
+                                                                                                   [State ]
+                                                                                                   type = Null
+trigger1 = 0&&var(59):= ( palno-1 )
+                                                                                                   trigger2 = var(59) != [-1,4]
+                                                                                                   trigger2 = var(59) := 5 && var(10) := (var(10)|128) && 0
+                                                                                                   trigger3 = var(58) := var(59)
+                                                                                                   ignorehitpause = 1
+;━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━
+;設定３－１：ダメージ条件（設定３が -1 のときに適用）
+                                                                                                   [State ]
+;1:あり / 0:なし
+;その他の数値が入力された際には 1 扱いとなります
+                                                                                                   type = Null
+                                                                                                   trigger1 = var(58) = -1
+trigger1 = 0&&var(59):= ( 0 )
+                                                                                                   trigger2 = (var(58)=-1&&var(59)) || var(58) = 4
+                                                                                                   trigger2 = var(10) := (var(10)|256)
+                                                                                                   ignorehitpause = 1
+;━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━
+;設定３－２：根性値（設定３が -1 のときに適用）
+                                                                                                   [State ]
+;1:あり / 0:なし
+;その他の数値が入力された際には 1 扱いとなります
+                                                                                                   type = Null
+                                                                                                   trigger1 = var(58) = -1
+trigger1 = 0&&var(59):= ( 0 )
+                                                                                                   trigger2 = (var(58)=-1&&var(59)) || var(58) = [3,4]
+                                                                                                   trigger2 = var(10) := (var(10)|512)
+                                                                                                   ignorehitpause = 1
+;━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━  ━
+;設定３－３：回復（設定３が -1 のときに適用）
+                                                                                                   [State ]
+;0:なし / 1:小 / 2:中 / 3:大
+;範囲外の数値が入力された際には 0 扱いとなります
+                                                                                                   type = Null
+                                                                                                   trigger1 = var(58) = -1
+trigger1 = 0&&var(59):= ( 0 )
+                                                                                                   trigger2 = var(59) = [1,3]
+                                                                                                   trigger2 = var(10) := (var(10)|(1024*var(59)))
+                                                                                                   ignorehitpause = 1
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;設定４：放置した時の状態遷移間隔
+;        初期設定:( 300 )
+                                                                                                   [State ]
+;どれだけ放置すると状態が変わるかを設定できます
+;最短で 設定値 × 10F 攻撃を食らわない場合に自滅します
+;設定可能範囲は 60 ～ 99999 です
+;範囲外の数値が入力された際には 99999 扱いとなります
+                                                                                                   type = Null
+trigger1 = 0&&var(59) := ( 300 )
+                                                                                                   trigger2 = var(59) != [60,99999]
+                                                                                                   trigger2 = var(59) := 99999 && 0
+                                                                                                   trigger3 = var(57) := var(59)
+                                                                                                   ignorehitpause = 1
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+;                      設定項目は以上です
+
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[State ]
+type = VarSet
+triggerall = var(58) = [1,4]
+trigger1 = var(58) <= 2
+trigger1 = var(59) := var(58)
+trigger2 = var(59) := var(58) - 1
+var(10) = (var(10)|(1024*var(59)))
+ignorehitpause = 1
+
+[State ]
+type = HitDef
+trigger1 = 1
+attr = 
+ignorehitpause = 1
+
+[State ]
+type = PlayerPush
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+
+[State ]
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+flag2 = NoWalk
+flag3 = NoJuggleCheck
+ignorehitpause = 1
+
+[State ]
+type = AssertSpecial
+trigger1 = 1
+flag = NoStandGuard
+flag2 = NoCrouchGuard
+flag3 = NoAirGuard
+ignorehitpause = 1
+
+[State ]
+type = AssertSpecial
+trigger1 = roundstate > 2
+trigger1 = win
+flag = NoKO
+ignorehitpause = 1
+
+[State ]
+type = VarAdd
+trigger1 = sysvar(3) > 0
+sysvar(3) = -1
+ignorehitpause = 1
+
+[State ];被ダメージ量管理
+type = Null
+trigger1 = !(var(10)&512)
+trigger1 = var(59) := gethitvar(damage) * 100 || 1
+trigger2 = var(59) := floor(gethitvar(damage) * 100 * ((9-sysvar(1)) * (9-sysvar(1)) / 81.0))
+ignorehitpause = 1
+
+[State ];ダメージ蓄積
+type = VarAdd
+triggerall = movetype = H
+triggerall = gethitvar(damage) > 0
+trigger1 = !(var(10)&256)
+trigger2 = !sysvar(3)
+sysfvar(1) = var(59) / 10.0
+ignorehitpause = 1
+
+[State ]
+type = VarSet
+trigger1 = movetype = H
+trigger1 = gethitvar(damage)
+sysvar(3) = ifelse((gethitvar(hittime)+gethitvar(hitshaketime)=[0,3000]),gethitvar(hittime)+gethitvar(hitshaketime),10)
+ignorehitpause = 1
+
+[State ]
+type = VelSet
+trigger1 = movetype = H
+trigger1 = gethitvar(damage)
+x = gethitvar(xvel) * facing
+y = gethitvar(yvel)
+ignorehitpause = 1
+
+[State ]
+type = VelSet
+trigger1 = var(59) := 0 || 1
+trigger1 = vel y > 0 && pos y + vel y >= 0
+trigger1 = var(59) := 1
+y = 0
+ignorehitpause = 1
+
+[State ]
+type = PosSet
+trigger1 = var(59)
+y = 0
+ignorehitpause = 1
+
+[State ]
+type = Turn
+trigger1 = movetype = H
+trigger1 = gethitvar(damage)
+trigger1 = facing * (pos x - enemynear,pos x) > 0
+ignorehitpause = 1
+
+[State ]
+type = RemoveExplod
+trigger1 = sysvar(3) > 0
+trigger1 = numexplod(1001)
+ID = 1001
+ignorehitpause = 1
+
+[State ]
+type = StateTypeSet
+trigger1 = 1
+statetype = S
+movetype = I
+physics = S
+ignorehitpause = 1
+
+[State ]
+type = VarSet
+trigger1 = 1
+sysfvar(2) = gametime%(300*(4-((var(10)&3072)/1024)))
+ignorehitpause = 1
+
+[State ];回復
+type = VarAdd
+trigger1 = sysvar(1) = [1,8]
+trigger1 = (var(10)&3072)
+trigger1 = gametime%(300*(4-((var(10)&3072)/1024))) = 0
+sysvar(1) = -1
+ignorehitpause = 1
+
+[State ]
+type = Null
+trigger1 = var(59) := 0 || 1
+trigger1 = roundstate = 2
+trigger1 = time
+trigger1 = time%var(57) = 0
+trigger1 = sysvar(3) <= 0
+trigger1 = sysvar(1) < 9
+trigger1 = var(59) := 1
+ignorehitpause = 1
+
+[State ]
+type = Explod
+trigger1 = var(59)
+anim = 1000 + sysvar(1)%10
+scale = .55,.55
+ID = 1001
+pos = 0,0
+sprpriority = 5
+removetime = 30
+supermove = 1
+supermovetime = -1
+pausemovetime = -1
+ignorehitpause = 1
+
+[State ]
+type = VarAdd
+trigger1 = 1
+sysvar(2) = 1
+ignorehitpause = 1
+
+[State ]
+type = VarSet
+trigger1 = var(59)
+sysvar(2) = 0
+ignorehitpause = 1
+
+[State ]
+type = VarAdd
+trigger1 = var(59)
+trigger1 = sysvar(1) < 9
+sysvar(1) = 1
+ignorehitpause = 1
+
+[State ];ダメージ反映
+type = VarSet
+trigger1 = sysfvar(1) >= 1000
+trigger1 = sysvar(1) < 9
+sysvar(1) = !(var(10)&128) * (sysvar(1)+1)
+ignorehitpause = 1
+
+[State ];ダメージ蓄積解除
+type = VarSet
+trigger1 = sysfvar(1) >= 1000
+trigger2 = var(59)
+sysfvar(1) = 0
+ignorehitpause = 1
+
+[State ]
+type = NotHitBy
+trigger1 = sysvar(1) >= 9
+trigger1 = anim = 500
+value2 = SCA
+ignorehitpause = 1
+
+[State ]
+type = ChangeAnim
+trigger1 = sysvar(3) > 0
+value = 5000 + sysvar(1)%10
+ignorehitpause = 1
+
+[State ]
+type = ChangeAnim
+trigger1 = anim != [500,506]
+trigger1 = sysvar(3) <= 0
+value = 500
+ignorehitpause = 1
+
+[State ]
+type = ChangeAnim
+trigger1 = anim = 500
+trigger1 = sysvar(1) < 9
+trigger1 = animelemtime(1) >= 5 * (1+(sysvar(1)%10)/5.0)
+value = 501
+ignorehitpause = 1
+
+[State ]
+type = ChangeAnim
+trigger1 = anim = 503
+trigger1 = animelemtime(1) >= 60 * (1+(sysvar(1)%10)/5.0)
+value = 504
+ignorehitpause = 1
+
+[State ]
+type = ChangeAnim
+trigger1 = anim = 506
+trigger1 = animelemtime(1) >= 30 * (1+(sysvar(1)%10)/5.0)
+value = 500
+ignorehitpause = 1
+
+[State ]
+type = ChangeAnim
+trigger1 = anim != 500 && anim != 503 && anim != 506 && anim != 5000
+trigger1 = animelemtime(1) >= 10 * (1+(sysvar(1)%10)/5.0)
+value = 500 + (anim+1)%10
+ignorehitpause = 1
+
+[State ]
+type = LifeSet
+trigger1 = 1
+value = 1000 - 100 * sysvar(1)
+ignorehitpause = 1
+
+[State ]
+type = LifeSet
+trigger1 = sysvar(1) >= 9
+trigger1 = anim = 500
+value = 0
+ignorehitpause = 1
+
+[State ]
+type = Explod
+trigger1 = anim = [500,506]
+anim = 1000 + sysvar(1)%10
+scale = .55,.55
+ID = 1000
+pos = 0,0
+sprpriority = 4
+removetime = 1
+supermove = 1
+supermovetime = -1
+pausemovetime = -1
+ignorehitpause = 1
+
+[State ]
+type = Explod
+trigger1 = !numexplod(2000)
+anim = 2000
+ownpal = 1
+scale = .5,.5
+ID = 2000
+postype = left
+pos = 0,0
+bindtime = -1
+ontop = 1
+removetime = -1
+supermove = 1
+supermovetime = -1
+pausemovetime = -1
+ignorehitpause = 1
+
+[State ]
+type = Explod
+trigger1 = !numexplod(3000)
+anim = 3000
+ownpal = 1
+scale = .5,.5
+ID = 3000
+postype = left
+pos = 0,0
+bindtime = -1
+ontop = 1
+removetime = -1
+supermove = 1
+supermovetime = -1
+pausemovetime = -1
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 500
+trigger2 = anim = 506
+ID = 1000
+postype = p1
+pos = 0,0
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 501
+trigger2 = anim = 505
+ID = 1000
+postype = p1
+pos = -1,9
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 502
+trigger2 = anim = 504
+ID = 1000
+postype = p1
+pos = 4,20
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 503
+ID = 1000
+postype = p1
+pos = -6,24
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 500
+trigger2 = anim = 506
+ID = 1001
+postype = p1
+pos = 0,0
+trans = addalpha
+alpha = 256-floor(256.0*sysvar(2)/30),floor(256.0*sysvar(2)/30)
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 501
+trigger2 = anim = 505
+ID = 1001
+postype = p1
+pos = -1,9
+trans = addalpha
+alpha = 256-floor(256.0*sysvar(2)/30),floor(256.0*sysvar(2)/30)
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 502
+trigger2 = anim = 504
+ID = 1001
+postype = p1
+pos = 4,20
+trans = addalpha
+alpha = 256-floor(256.0*sysvar(2)/30),floor(256.0*sysvar(2)/30)
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = anim = 503
+ID = 1001
+postype = p1
+pos = -6,24
+trans = addalpha
+alpha = 256-floor(256.0*sysvar(2)/30),floor(256.0*sysvar(2)/30)
+ignorehitpause = 1
+
+[State ]
+type = ModifyExplod
+trigger1 = var(59) := 224 - 16 * (sysvar(1)%10) + ceil(sysfvar(3)) || 1
+trigger1 = var(59) := ifelse(var(59) > 256,256,var(59)) || 1
+ID = 3000
+trans = addalpha
+alpha = 256,var(59)
+ignorehitpause = 1
+
+[State ]
+type = VarAdd
+trigger1 = roundstate > 2
+trigger1 = !alive
+sysfvar(3) = 1
+ignorehitpause = 1
+
+[State ]
+type = SelfState
+trigger1 = sysvar(4) != gametime
+trigger2 = time >= var(57)
+value = 0
+ctrl = 0
+ignorehitpause = 1
+
+[Statedef -3]
+
+[State ]
+type = SelfState
+trigger1 = !(name="Obliitae Umbella") || !(authorname="Halkaze")
+value = 5030
+ignorehitpause = 1
+
+[State ]
+type = VarSet
+trigger1 = !ishelper
+sysvar(4) = gametime
+ignorehitpause = 1
+
+[State ]
+type = Null
+triggerall = ishelper
+trigger1 = gametime%2
+trigger1 = var(0) := 2 * gametime + 1 || 1
+trigger2 = var(0) := -3 * gametime + 1
+ignorehitpause = 1

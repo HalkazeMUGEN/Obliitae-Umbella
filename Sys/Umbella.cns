@@ -1,0 +1,69 @@
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;必須データ群
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Data]
+Life              = 1000
+Power             = 3000
+Attack            = 100
+Defence           = 100
+Fall.Defence_Up   = 0
+Liedown.Time      = 15
+AirJuggle         = 99999
+SparkNo           = -1
+Guard.SparkNo     = -1
+KO.Echo           = 0
+Volume            = 0
+IntPersistIndex   = 0
+FloatPersistIndex = 0
+
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;キャラのサイズ
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Size]
+Xscale            = 0.55
+Yscale            = 0.55
+Ground.Back       = 87
+Ground.Front      = 87
+Air.Back          = 87
+Air.Front         = 87
+Height            = 144
+Attack.Dist       = 90
+Proj.Attack.dist  = 90
+Proj.Doscale      = 0
+Head.Pos          = 8, -97
+Mid.Pos           = -8, -57
+ShadowOffset      = 0
+Draw.Offset       = 0,0
+Z.Width           = 190
+
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;移動速度
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Velocity]
+Walk.Fwd          = 2.0
+Walk.Back         = -2.0
+Run.Fwd           = 4.0, 0
+Run.Back          = -4.0, 0
+Jump.Neu          = 0,-2.0
+Jump.Back         = -2.0
+Jump.Fwd          = 2.0
+RunJump.Back      = -4.0, 0
+RunJump.Fwd       = 4.0, 0
+AirJump.Neu       = 0, -2.0
+AirJump.Back      = -2.0
+AirJump.Fwd       = 2.0
+
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;その他の定数
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Movement]
+AirJump.Num       = 0
+AirJump.Height    = 25
+Yaccel            = .28
+Stand.Friction    = 0.8
+Crouch.Friction   = 0.8
+

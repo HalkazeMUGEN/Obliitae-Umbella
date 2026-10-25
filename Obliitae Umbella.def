@@ -1,0 +1,28 @@
+
+[Info]
+name          = "Obliitae Umbella"
+displayname   = "Obliitae Umbella"
+versiondate   = 10,22,2021
+latestversion = 10,31,2021
+mugenversion  = 04,20,2002
+author        = "Halkaze"
+pal.defaults  = 1
+
+[Files]
+cns      = Sys/Umbella.cns
+st       = OPTION.txt
+st0      = Sys/Umbella.st
+cmd      = Sys/Command.st
+stcommon = Sys/Common.st
+
+sprite   = Res/Umbella.sff
+anim     = Res/Umbella.air
+sound    = ;Res/Umbella.snd
+
+pal1     = Res/Act/pal1.act
+pal2     = Res/Act/pal2.act
+pal3     = Res/Act/pal3.act
+pal4     = Res/Act/pal4.act
+pal5     = Res/Act/pal5.act
+pal6     = Res/Act/pal6.act
+
